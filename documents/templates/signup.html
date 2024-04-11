@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<div class="d-flex align-items-center py-5 bg-body-tertiary text-center">
+<main class="form-signin w-75 m-auto container">
+    
+    <form method="POST" class="w-75 m-auto">
+        {% csrf_token %}
+        <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
+        <h1 class="mb-4 fw-bold">Registro</h1>
+
+        <div class="form-floating mb-0">
+            <input type="email" class="form-control rounded rounded-bottom-0" id="floatingInput" placeholder="name@example.com" name="username">
+            <label for="floatingInput">Correo Electronico</label>
+        </div>
+        <div class="form-floating my-0">
+            <input type="password" class="form-control rounded rounded-0" id="floatingPassword" placeholder="Password" name="password1">
+            <label for="floatingPassword">Contrasena</label>
+        </div>
+
+        <div class="form-floating mb-3 mt-0">
+            <input type="password" class="form-control rounded rounded-top-0" id="floatingPassword" placeholder="Password" name="password2">
+            <label for="floatingPassword">Confirmar Contrasena</label>
+        </div>
+        {{error}}
+        <br>
+        <button class="btn btn-primary w-50 py-2 mx-auto" type="submit">Registrarme</button>
+        <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
+    </form>
+</main>
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <h1>{{document.titulo}}</h1>
+<p>{{document.descripcion}}</p> -->
+
+{{error}}
+<div class="container my-5">
+
+
+<!-- <form action="{% url 'deleted_document' document.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit"> Eliminar Documento </button>
+</form> -->
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-label">Titulo</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="{{document.titulo}}" name="titulo">
+
+    </div>
+    <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Descripcion</label>
+        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="{{document.descripcion}}" name="descripcion">
+    </div>
+    <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Archivo</label>
+        <input type="file" class="form-control" id="formGroupExampleInput2" placeholder=""
+            name="file" value="{{document.archivo}}">
+    </div>
+    {{document.archivo}}
+<br>
+{% if not user.is_staff %}
+
+    <button type="submit" class="btn btn-primary"> Actualizar </button>
+{% endif %}
+
+</form>
+<br>
+{% if not document.aprobado and user.is_staff %}
+
+<form action="{% url 'approved_document' document.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success"> Aprobar Documento </button>
+</form>
+{% endif %}
+
+
+</div>
+
+{% endblock %}
