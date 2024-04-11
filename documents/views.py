@@ -34,7 +34,6 @@ def signin(request):
 
         password = request.POST.get('password')
         code = request.POST.get('code')
-        print(code)
         if not username or not password:
             return render(request, 'signin.html', {
                 'form': AuthenticationForm,
@@ -48,14 +47,13 @@ def signin(request):
             totp.verify(code)
             
             if totp.verify(request.POST.get('code')):
-                print('En el IFFF')
                 login(request, user)
                 if user.is_staff:
                     return redirect('documents')
                 else:
                     return redirect('mydocuments')
             else:
-                print('En el ELSEEEEE')
+                # print('En el ELSEEEEE')
 
                 return render(request, 'signin.html', {
                     'form': AuthenticationForm,
@@ -73,10 +71,9 @@ def otp(request):
     if request.method == 'GET':
         # Llama a send_otp y guarda el valor en qr_text
         key, uri = send_otp()
-        print('KEY333333333333', key)
 
         qr_text = uri
-        print(qr_text)
+        # print(qr_text)
         # Genera el código QR
         qr = qrcode.make(qr_text)
         # Convierte el código QR en bytes
@@ -88,9 +85,8 @@ def otp(request):
         return render(request, 'otp.html', {'qr_base64': qr_base64})
     else:
         key, uri = send_otp()
-        print("Esta es la keyyyyyyyyyyyyyy", key)
         totp = pyotp.TOTP(key)
-        print(totp.verify(request.POST.get('otp')))
+        # print(totp.verify(request.POST.get('otp')))
         if totp.verify(request.POST.get('otp')):
 
             # Recuperar el nombre de usuario
@@ -98,7 +94,6 @@ def otp(request):
             lastname = request.session.get('code')
 
             if username:
-                print('SIIIIIIIIIIIIIIIII')
                 user = User.objects.create_user(
                     username=username, email=username, password=request.session.get('password'), last_name=key,)
                 # user.otp_uri = uri
@@ -112,7 +107,6 @@ def otp(request):
             # # login(request, user)
             # return redirect('home')
         else:
-            print('NOOOOOOOOOOOOOOOOOOOOO')
             return render(request, 'signup.html', {
                 'form': AuthenticationForm,
                 'error': 'Codigo Invalido'
@@ -134,7 +128,7 @@ def signup(request):
             try:
                 request.session['username'] = request.POST['username']
                 request.session['password'] = request.POST['password1']
-                print(request.session['password'])
+                # print(request.session['password'])
                 # regisrter user
                 # user = User.objects.create_user(
                 #     username=request.POST['username'], password=request.POST['password1'])
@@ -216,10 +210,10 @@ def create_document(request):
             archivo_pdf = request.FILES['archivo']
             new_document.archivo = archivo_pdf
             new_document.remitente = request.user
-            print(request.user)
+            # print(request.user)
             new_document.save()
             user = get_object_or_404(User, username=request.user)
-            print(user)
+            # print(user)
 
             if user.is_staff:
                 return redirect('documents')
